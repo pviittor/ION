@@ -1,0 +1,858 @@
+{
+	"info": {
+		"_postman_id": "vanna-ai-flask-api-collection",
+		"name": "Vanna.AI Flask API",
+		"description": "Coleção completa de requests para a API Flask que utiliza Vanna.AI para treinamento e geração de consultas SQL.\n\n**Instruções de Uso:**\n1. Configure as variáveis de ambiente (api_key, model_name, etc.)\n2. Execute os requests na ordem sugerida\n3. Primeiro conecte ao Vanna.AI, depois ao banco, treine o modelo e faça consultas\n\n**Autor:** Paulo Vitor\n**Versão:** 1.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Health Check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has status field\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('status');",
+							"    pm.expect(jsonData.status).to.eql('ok');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Verifica se a API está funcionando e retorna o status de conexão com o Vanna.AI"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Connect to Vanna.AI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Connection successful\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('connected');",
+							"    pm.expect(jsonData.connected).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"api_key\": \"{{vanna_api_key}}\",\n  \"model_name\": \"{{vanna_model_name}}\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/connect",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"connect"
+					]
+				},
+				"description": "Conecta ao serviço Vanna.AI usando API key e model name. Configure as variáveis de ambiente antes de executar."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Connect to MySQL Database",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Database connection successful\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('message');",
+							"    pm.expect(jsonData.message).to.include('sucesso');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"db_type\": \"mysql\",\n  \"host\": \"{{db_host}}\",\n  \"port\": {{db_port}},\n  \"user\": \"{{db_user}}\",\n  \"password\": \"{{db_password}}\",\n  \"database\": \"{{db_name}}\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/connect-database",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"connect-database"
+					]
+				},
+				"description": "Conecta ao banco de dados MySQL. Configure as variáveis de ambiente do banco antes de executar."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Connect to PostgreSQL Database",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"db_type\": \"postgresql\",\n  \"host\": \"{{db_host}}\",\n  \"port\": 5432,\n  \"user\": \"{{db_user}}\",\n  \"password\": \"{{db_password}}\",\n  \"database\": \"{{db_name}}\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/connect-database",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"connect-database"
+					]
+				},
+				"description": "Conecta ao banco de dados PostgreSQL. Alternativa ao MySQL."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Connect to SQLite Database",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"db_type\": \"sqlite\",\n  \"database\": \"/path/to/your/database.db\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/connect-database",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"connect-database"
+					]
+				},
+				"description": "Conecta ao banco de dados SQLite. Mais simples, apenas requer o caminho do arquivo."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Train Model - Complete Example",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Training completed\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('message');",
+							"    pm.expect(jsonData.message).to.include('concluído');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ddl_statements\": [\n    \"CREATE TABLE usuarios (id INT PRIMARY KEY AUTO_INCREMENT, nome VARCHAR(100) NOT NULL, email VARCHAR(100) UNIQUE, data_cadastro DATE, ativo BOOLEAN DEFAULT TRUE)\",\n    \"CREATE TABLE produtos (id INT PRIMARY KEY AUTO_INCREMENT, nome VARCHAR(100) NOT NULL, preco DECIMAL(10,2), categoria VARCHAR(50), estoque INT DEFAULT 0)\",\n    \"CREATE TABLE pedidos (id INT PRIMARY KEY AUTO_INCREMENT, usuario_id INT, data_pedido DATE, total DECIMAL(10,2), status VARCHAR(20) DEFAULT 'pendente', FOREIGN KEY (usuario_id) REFERENCES usuarios(id))\",\n    \"CREATE TABLE itens_pedido (id INT PRIMARY KEY AUTO_INCREMENT, pedido_id INT, produto_id INT, quantidade INT, preco_unitario DECIMAL(10,2), FOREIGN KEY (pedido_id) REFERENCES pedidos(id), FOREIGN KEY (produto_id) REFERENCES produtos(id))\"\n  ],\n  \"documentation\": [\n    \"A tabela usuarios contém informações dos clientes cadastrados no sistema de e-commerce\",\n    \"A tabela produtos mantém o catálogo de produtos disponíveis para venda\",\n    \"A tabela pedidos registra todos os pedidos realizados pelos usuários\",\n    \"A tabela itens_pedido detalha quais produtos foram incluídos em cada pedido\",\n    \"O campo total na tabela pedidos representa o valor total do pedido em reais\",\n    \"O campo categoria na tabela produtos pode ser: eletrônicos, roupas, livros, casa, esportes\",\n    \"O campo status na tabela pedidos pode ser: pendente, processando, enviado, entregue, cancelado\",\n    \"O campo ativo na tabela usuarios indica se o usuário está ativo no sistema\"\n  ],\n  \"sql_data\": [\n    {\n      \"question\": \"Quantos usuários temos cadastrados?\",\n      \"sql\": \"SELECT COUNT(*) FROM usuarios\"\n    },\n    {\n      \"question\": \"Qual o total de vendas?\",\n      \"sql\": \"SELECT SUM(total) FROM pedidos WHERE status = 'entregue'\"\n    },\n    {\n      \"question\": \"Quais são os produtos mais caros?\",\n      \"sql\": \"SELECT nome, preco FROM produtos ORDER BY preco DESC LIMIT 10\"\n    },\n    {\n      \"question\": \"Quantos pedidos foram feitos hoje?\",\n      \"sql\": \"SELECT COUNT(*) FROM pedidos WHERE DATE(data_pedido) = CURDATE()\"\n    },\n    {\n      \"question\": \"Qual usuário fez mais pedidos?\",\n      \"sql\": \"SELECT u.nome, COUNT(p.id) as total_pedidos FROM usuarios u JOIN pedidos p ON u.id = p.usuario_id GROUP BY u.id ORDER BY total_pedidos DESC LIMIT 1\"\n    },\n    {\n      \"question\": \"Quais produtos estão em falta no estoque?\",\n      \"sql\": \"SELECT nome, estoque FROM produtos WHERE estoque = 0\"\n    },\n    {\n      \"question\": \"Qual o valor médio dos pedidos?\",\n      \"sql\": \"SELECT AVG(total) FROM pedidos WHERE status != 'cancelado'\"\n    },\n    {\n      \"question\": \"Quantos produtos temos por categoria?\",\n      \"sql\": \"SELECT categoria, COUNT(*) FROM produtos GROUP BY categoria\"\n    }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/train",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"train"
+					]
+				},
+				"description": "Treina o modelo Vanna.AI com um exemplo completo de e-commerce incluindo DDL statements, documentação e pares pergunta-SQL."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Train Model - DDL Only",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ddl_statements\": [\n    \"CREATE TABLE clientes (id INT PRIMARY KEY, nome VARCHAR(100), email VARCHAR(100))\",\n    \"CREATE TABLE vendas (id INT PRIMARY KEY, cliente_id INT, valor DECIMAL(10,2), data_venda DATE)\"\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/train",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"train"
+					]
+				},
+				"description": "Exemplo de treinamento apenas com DDL statements."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Train Model - No Parameters",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Training endpoint accessible\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('message');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{base_url}}/train",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"train"
+					]
+				},
+				"description": "Testa o endpoint de treinamento sem nenhum parâmetro - agora funciona sem dados obrigatórios."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Train Basic - GET Method",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Basic training successful\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('status');",
+							"    pm.expect(jsonData.status).to.eql('ready');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/train-basic",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"train-basic"
+					]
+				},
+				"description": "Endpoint de treinamento básico usando GET - funciona sem nenhum parâmetro."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Train Basic - POST Method",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{base_url}}/train-basic",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"train-basic"
+					]
+				},
+				"description": "Endpoint de treinamento básico usando POST - funciona sem nenhum parâmetro."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Generate SQL - Simple Query",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"SQL generated\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('sql');",
+							"    pm.expect(jsonData.sql).to.be.a('string');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Quantos usuários temos cadastrados?\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/generate-sql",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"generate-sql"
+					]
+				},
+				"description": "Gera SQL para uma pergunta simples sobre contagem de usuários."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Generate SQL - Complex Query",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Quais são os 5 produtos mais vendidos no último mês com o total de vendas?\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/generate-sql",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"generate-sql"
+					]
+				},
+				"description": "Gera SQL para uma consulta mais complexa envolvendo múltiplas tabelas e agregações."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Generate SQL - Analytics Query",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Qual o faturamento total por mês nos últimos 6 meses?\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/generate-sql",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"generate-sql"
+					]
+				},
+				"description": "Gera SQL para análise de faturamento temporal."
+			},
+			"response": []
+		},
+		{
+			"name": "6. Ask Question - Simple",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Question answered\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('result');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Quantos usuários temos?\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/ask",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				},
+				"description": "Faz uma pergunta completa (gera SQL e executa a consulta) sobre contagem de usuários."
+			},
+			"response": []
+		},
+		{
+			"name": "6. Ask Question - Sales Analysis",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Qual o total de vendas por categoria de produto?\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/ask",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				},
+				"description": "Pergunta completa sobre análise de vendas por categoria."
+			},
+			"response": []
+		},
+		{
+			"name": "6. Ask Question - Customer Analysis",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Quais são os 10 clientes que mais gastaram este ano?\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/ask",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				},
+				"description": "Pergunta completa sobre análise de clientes por valor gasto."
+			},
+			"response": []
+		},
+		{
+			"name": "7. Configure LLM Data Access",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Configuration updated\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('allow_llm_to_see_data');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"allow_llm_to_see_data\": true\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/configure-llm-data-access",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"configure-llm-data-access"
+					]
+				},
+				"description": "Configura se o LLM pode ver os dados do banco para melhor geração de SQL. Permite introspecção do banco de dados."
+			},
+			"response": []
+		},
+		{
+			"name": "8. Generate SQL - With Data Access",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"SQL generated with data access\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('sql');",
+							"    pm.expect(jsonData).to.have.property('allow_llm_to_see_data');",
+							"    pm.expect(jsonData.allow_llm_to_see_data).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Mostre-me todas as tabelas e suas colunas\",\n  \"allow_llm_to_see_data\": true\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/generate-sql",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"generate-sql"
+					]
+				},
+				"description": "Gera SQL com acesso aos dados habilitado, permitindo introspecção do banco."
+			},
+			"response": []
+		},
+		{
+			"name": "8. Generate SQL - Without Data Access",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Quantos registros temos na tabela usuarios?\",\n  \"allow_llm_to_see_data\": false\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/generate-sql",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"generate-sql"
+					]
+				},
+				"description": "Gera SQL sem acesso aos dados, baseado apenas no treinamento prévio."
+			},
+			"response": []
+		},
+		{
+			"name": "9. Ask Question - With Data Access",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Question answered with data access\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('result');",
+							"    pm.expect(jsonData).to.have.property('allow_llm_to_see_data');",
+							"    pm.expect(jsonData.allow_llm_to_see_data).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Qual a estrutura da tabela de vendas?\",\n  \"allow_llm_to_see_data\": true\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/ask",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				},
+				"description": "Faz uma pergunta completa com acesso aos dados habilitado para introspecção."
+			},
+			"response": []
+		},
+		{
+			"name": "9. Ask Question - Without Data Access",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Quantos produtos temos cadastrados?\",\n  \"allow_llm_to_see_data\": false\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/ask",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				},
+				"description": "Faz uma pergunta completa sem acesso aos dados, baseado apenas no treinamento."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script executado antes de cada request",
+					"console.log('Executando request para:', pm.request.url);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script executado após cada request",
+					"console.log('Response status:', pm.response.status);",
+					"console.log('Response time:', pm.response.responseTime + 'ms');"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"description": "URL base da API Flask"
+		},
+		{
+			"key": "vanna_api_key",
+			"value": "your_vanna_api_key_here",
+			"description": "Sua API Key do Vanna.AI"
+		},
+		{
+			"key": "vanna_model_name",
+			"value": "your_model_name_here",
+			"description": "Nome do seu modelo no Vanna.AI"
+		},
+		{
+			"key": "db_host",
+			"value": "localhost",
+			"description": "Host do banco de dados"
+		},
+		{
+			"key": "db_port",
+			"value": "3306",
+			"description": "Porta do banco de dados"
+		},
+		{
+			"key": "db_user",
+			"value": "root",
+			"description": "Usuário do banco de dados"
+		},
+		{
+			"key": "db_password",
+			"value": "your_password_here",
+			"description": "Senha do banco de dados"
+		},
+		{
+			"key": "db_name",
+			"value": "your_database_name",
+			"description": "Nome do banco de dados"
+		}
+	]
+}

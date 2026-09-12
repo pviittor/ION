@@ -1,0 +1,62 @@
+name: app_agente_inteligente
+description: "A new Flutter project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  
+  speech_to_text: ^7.1.0
+  permission_handler: ^12.0.1
+  flutter_tts: ^4.2.3
+  shared_preferences: ^2.5.3
+  webview_flutter: ^4.4.2
+
+  # Database connectivity
+  mysql1: ^0.20.0
+  postgres: ^3.5.6
+
+  # State management and UI
+  http: ^1.4.0
+  sqflite: ^2.4.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/logo_ion.png
+    - assets/termos_uso_lgpd.md  # Adicionar esta linha
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo_ion.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/logo_ion.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/logo_ion.png"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/logo_ion.png"
+

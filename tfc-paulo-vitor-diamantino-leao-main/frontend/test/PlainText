@@ -1,0 +1,110 @@
+
+Testes Implementados
+
+1. Validação de Nome (`validators_test.dart`)
+
+✅ Cenários Testados:
+- **Obrigatoriedade**: Nome vazio, nulo ou apenas espaços
+- **Tamanho mínimo**: Nome com menos de 2 caracteres
+- **Tamanho máximo**: Nome com mais de 50 caracteres
+- **Números**: Nome contendo dígitos numéricos
+- **Caracteres especiais**: Nome com símbolos inválidos
+- **Nomes válidos**: Nomes simples e compostos
+- **Acentos**: Nomes com caracteres acentuados
+
+Regras de Negócio:
+- Nome é obrigatório
+- Deve ter entre 2 e 50 caracteres
+- Não pode conter números
+- Deve conter apenas letras e espaços
+- Aceita acentos e caracteres especiais do português
+
+2. Validação de Sobrenome (`validators_test.dart`)
+
+✅ Cenários Testados:
+- **Obrigatoriedade**: Sobrenome vazio ou nulo
+- **Tamanho mínimo**: Sobrenome com menos de 2 caracteres
+- **Números**: Sobrenome contendo dígitos
+- **Sobrenomes válidos**: Sobrenomes simples e compostos
+
+Regras de Negócio:
+- Sobrenome é obrigatório
+- Deve ter pelo menos 2 caracteres
+- Não pode conter números
+- Deve conter apenas letras e espaços
+
+3. Validação de Email (`email_senha_test.dart`)
+
+Cenários Testados:
+- **Obrigatoriedade**: Email vazio ou nulo
+- **Formato básico**: Email sem @ ou sem ponto
+- **Emails válidos**: Formatos corretos de email
+
+Regras de Negócio:
+- Email é obrigatório
+- Deve conter o símbolo @
+- Deve conter pelo menos um ponto após o @
+- Formato: usuario@dominio.extensao
+
+4. Validação de Senha (`email_senha_test.dart`)
+
+✅ Cenários Testados:
+- **Obrigatoriedade**: Senha vazia ou nula
+- **Tamanho mínimo**: Senha com menos de 6 caracteres
+- **Senhas válidas**: Senhas com 6 ou mais caracteres
+- **Confirmação de senha**: Validação de senhas coincidentes
+
+Regras de Negócio:
+- Senha é obrigatória
+- Deve ter pelo menos 6 caracteres
+- Confirmação de senha deve coincidir com a senha
+
+5. Validação de Telefone (`telefone_test.dart`)
+
+✅ Cenários Testados:
+- **Obrigatoriedade**: Telefone vazio ou nulo
+- **Tamanho**: Telefone com menos de 10 ou mais de 11 dígitos
+- **Celular**: Número de celular que não começa com 9
+- **Código de área**: Códigos de área inválidos (09, 10)
+- **Telefones válidos**: Fixos e celulares em formato correto
+
+Regras de Negócio:
+- Telefone é obrigatório
+- Deve ter entre 10 e 11 dígitos
+- Celulares (11 dígitos) devem começar com 9 no terceiro dígito
+- Códigos de área válidos: 11-99 (exceto 09 e 10)
+- Aceita formatação com parênteses, espaços e hífens
+
+6. Formatação de Dados (`formatacao_test.dart`)
+
+✅ Cenários Testados:
+- **Capitalização**: Primeira letra de cada palavra em maiúscula
+- **Espaços extras**: Remoção de espaços desnecessários
+- **Nomes compostos**: Formatação correta de preposições
+- **Entrada vazia**: Tratamento de strings vazias
+
+Regras de Formatação:
+- Primeira letra de cada palavra em maiúscula
+- Demais letras em minúscula
+- Remove espaços extras no início, fim e entre palavras
+- Mantém apenas um espaço entre palavras
+
+Cobertura de Testes
+
+Os testes cobrem as seguintes funcionalidades:
+
+✅ Validações Implementadas:
+- [x] Validação de Nome
+- [x] Validação de Sobrenome  
+- [x] Validação de Email
+- [x] Validação de Senha
+- [x] Validação de Telefone
+- [x] Confirmação de Senha
+- [x] Formatação de Nome
+- [x] Formatação de Telefone
+
+Métricas:
+- **Total de testes**: ~35 casos de teste
+- **Arquivos testados**: 4 arquivos principais
+- **Funções cobertas**: 8 funções de validação/formatação
+
