@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:app_agente_inteligente/screens/connection/connectionDB_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:app_agente_inteligente/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -81,7 +82,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     
     if (idusuario != null) {
       try {
-        final url = 'http://91.108.125.253:3000/api/usuarios/$idusuario';
+        final url = '$backendUrl/api/usuarios/$idusuario';
         print('🌐 DEBUG: Fazendo requisição para: $url');
         
         final response = await http.get(
@@ -144,7 +145,7 @@ Future<void> _verificarStatusConexoes() async {
   try {
     // Uma única chamada para a API de status
     final response = await http.get(
-      Uri.parse("http://91.108.125.253:5000/status"),
+      Uri.parse("$vannaUrl/status"),
       headers: {'Content-Type': 'application/json'},
     ).timeout(const Duration(seconds: 10));
     
@@ -588,7 +589,7 @@ void _showSettingsDialog() {
       print('DEBUG - user_id sendo enviado: $idusuario (tipo: ${idusuario.runtimeType})');
 
       final response = await http.post(
-        Uri.parse("http://91.108.125.253:5000/ask"),
+        Uri.parse("$vannaUrl/ask"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(requestBody),
       );

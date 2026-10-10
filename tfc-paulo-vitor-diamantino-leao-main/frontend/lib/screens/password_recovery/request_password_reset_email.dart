@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_agente_inteligente/config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../password_recovery/reset_password_email.dart';
@@ -28,7 +29,7 @@ class _RequestPasswordResetEmailPageState extends State<RequestPasswordResetEmai
 
     try {
       final response = await http.post(
-        Uri.parse('http://91.108.125.253:3000/api/password-reset/send-email'),
+        Uri.parse('$backendUrl/api/password-reset/send-email'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': _emailController.text.trim()}),
       );

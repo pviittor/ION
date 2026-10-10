@@ -26,7 +26,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # URL do backend Node.js
-NODE_BACKEND_URL = "http://91.108.125.253:3000"
+NODE_BACKEND_URL = os.environ.get("NODE_BACKEND_URL", "http://91.108.125.253:3000")
 
 # Função para buscar credenciais do usuário
 def fetch_user_credentials(user_id):
@@ -1114,7 +1114,7 @@ def conectar_e_treinar_automatico():
             'port': int(data.get('porta', 3306)),  # Porta padrão MySQL (3306) em vez de PostgreSQL (5432)
             'user': data.get('usuario'),  # Mapeia corretamente o campo 'usuario'
             'password': data.get('senha'),  # Mapeia corretamente o campo 'senha'
-            'database': data.get('nome_banco')  # Mapeia corretamente o campo 'nome_banco'
+            'database': data.get('nome_banco') or data.get('nomeBanco')  # o frontend envia 'nomeBanco'
         }
 
         # Tipo de treinamento

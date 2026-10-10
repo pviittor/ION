@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_agente_inteligente/config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../chat/chat_screen.dart';
@@ -37,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      final url = Uri.parse('http://91.108.125.253:3000/api/login');
+      final url = Uri.parse('$backendUrl/api/login');
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
