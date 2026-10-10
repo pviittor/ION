@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_agente_inteligente/config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,7 +46,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   // Função para carregar os dados do usuário a partir da API
   Future<void> _loadUserData(int idusuario) async {
-    final url = Uri.parse('http://91.108.125.253:3000/api/usuarios/$idusuario');
+    final url = Uri.parse('$backendUrl/api/usuarios/$idusuario');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -72,7 +73,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _isLoading = true;
     });
 
-    final url = Uri.parse('http://91.108.125.253:3000/api/usuarios/$idusuario');
+    final url = Uri.parse('$backendUrl/api/usuarios/$idusuario');
 
     final body = jsonEncode({
       'nome': nome,
@@ -110,7 +111,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> deleteUser(int idusuario) async {
-    final url = Uri.parse('http://91.108.125.253:3000/api/usuarios/$idusuario');
+    final url = Uri.parse('$backendUrl/api/usuarios/$idusuario');
     
     try {
       final response = await http.delete(url);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_agente_inteligente/config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../user/login_user.dart';
@@ -47,7 +48,7 @@ class _ResetPasswordEmailPageState extends State<ResetPasswordEmailPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://91.108.125.253:3000/api/password-reset/verify-token'),
+        Uri.parse('$backendUrl/api/password-reset/verify-token'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'token': _tokenController.text.trim()}),
       );
@@ -101,7 +102,7 @@ class _ResetPasswordEmailPageState extends State<ResetPasswordEmailPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://91.108.125.253:3000/api/password-reset/reset-password'),
+        Uri.parse('$backendUrl/api/password-reset/reset-password'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'token': _tokenController.text.trim(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_agente_inteligente/config.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -52,7 +53,7 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
 
       try {
         final response = await http.post(
-          Uri.parse('http://91.108.125.253:3000/api/cadastro'),
+          Uri.parse('$backendUrl/api/cadastro'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(dados),
         );

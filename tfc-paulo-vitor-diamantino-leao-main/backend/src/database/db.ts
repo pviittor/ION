@@ -10,7 +10,8 @@ export const pool = new Pool({
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
   port: parseInt(process.env.DB_PORT || '5432'),
-  ssl: {
-    ca: fs.readFileSync('./rds-combined-ca-bundle.pem').toString()
-  }
+  // DB_SSL=false para banco local (sem SSL); padrão continua sendo o RDS com SSL
+  ssl: process.env.DB_SSL === 'false'
+    ? false
+    : { ca: fs.readFileSync('./rds-combined-ca-bundle.pem').toString() }
 });

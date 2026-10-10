@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_agente_inteligente/config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +62,7 @@ class _ConexaoBancoPageState extends State<ConexaoBancoPage> {
   
       try {
         final salvarResponse = await http.post(
-          Uri.parse("http://91.108.125.253:3000/api/credenciais"),
+          Uri.parse("$backendUrl/api/credenciais"),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'idusuario': idUsuario,
@@ -91,7 +92,7 @@ class _ConexaoBancoPageState extends State<ConexaoBancoPage> {
 
         // 3. TERCEIRO: Conectar ao banco de dados via API Flask
         final connectDbResponse = await http.post(
-          Uri.parse("http://91.108.125.253:5000/connect-database"),
+          Uri.parse("$vannaUrl/connect-database"),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'db_type': tipoBanco, // Usar tipo selecionado
@@ -154,7 +155,7 @@ class _ConexaoBancoPageState extends State<ConexaoBancoPage> {
       try {
         // 1. Salvar credenciais no backend local (Node.js)
         final vannaResponse = await http.put(
-          Uri.parse("http://91.108.125.253:3000/api/credenciais/$idUsuario"),
+          Uri.parse("$backendUrl/api/credenciais/$idUsuario"),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'api_key': apiKeyController.text.trim(),
@@ -172,7 +173,7 @@ class _ConexaoBancoPageState extends State<ConexaoBancoPage> {
         // 2. Conectar ao Vanna.AI usando a API Flask
         // Na função configurarVanna() - linha 155-156
         final connectResponse = await http.post(
-          Uri.parse("http://91.108.125.253:5000/connect"),
+          Uri.parse("$vannaUrl/connect"),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'api_key': apiKeyController.text.trim(),
@@ -239,7 +240,7 @@ class _ConexaoBancoPageState extends State<ConexaoBancoPage> {
     try {
       // Conectar ao banco de dados via API Flask
       final connectDbResponse = await http.post(
-        Uri.parse("http://91.108.125.253:5000/connect-database"),
+        Uri.parse("$vannaUrl/connect-database"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'db_type': tipoBanco, // Usar tipo selecionado
@@ -333,7 +334,7 @@ class _ConexaoBancoPageState extends State<ConexaoBancoPage> {
     try {
       // Usar o endpoint de treinamento automático
       final treinarResponse = await http.post(
-        Uri.parse("http://91.108.125.253:5000/conectar-e-treinar-automatico"),
+        Uri.parse("$vannaUrl/conectar-e-treinar-automatico"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'api_key': apiKeyController.text.trim(),
@@ -500,7 +501,7 @@ class _ConexaoBancoPageState extends State<ConexaoBancoPage> {
     });
   
     final response = await http.get(
-      Uri.parse('http://91.108.125.253:3000/api/credenciais/$id'),
+      Uri.parse('$backendUrl/api/credenciais/$id'),
     );
   
     if (response.statusCode == 200) {

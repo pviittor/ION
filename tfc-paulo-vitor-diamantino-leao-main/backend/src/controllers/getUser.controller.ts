@@ -39,7 +39,7 @@ export const getUserByPhone = async (req: Request, res: Response): Promise<void>
 
   try {
     // Limpar o número de telefone (remover caracteres especiais e código do país)
-    let numeroLimpo = telefone.replace(/\D/g, '');
+    let numeroLimpo = String(telefone).replace(/\D/g, '');
     
     // Se o número começar com 55 (código do Brasil), remover
     if (numeroLimpo.startsWith('55') && numeroLimpo.length === 13) {
